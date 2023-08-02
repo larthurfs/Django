@@ -1,3 +1,7 @@
 .django
 .idea
 __pycache__
+.env
+
+
+
