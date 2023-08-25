@@ -18,7 +18,7 @@ from apps.core.senha import gerar_senha
 
 from apps.core.numeros import verificar_intervalo, sequencia_numeros
 
-
+#coment
 def home(request):
 
     qrcode = Ferramentas.objects.get(nome="Gerador de QR Code")
