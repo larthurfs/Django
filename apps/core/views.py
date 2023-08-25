@@ -3,7 +3,6 @@ from django.shortcuts import render, redirect
 
 from apps.core.models import Ferramentas
 from django.http import HttpResponse
-from pytube import YouTube
 from django.contrib import messages
 
 import qrcode
