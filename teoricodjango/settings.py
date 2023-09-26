@@ -121,9 +121,9 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
-STATIC_URL = 'apps/core/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-STATICFILES_DIRS = [os.path.join(BASE_DIR, 'apps/core/static/')]
+STATIC_URL = 'apps/core/static/' #Essa configuração define o URL base para os arquivos estáticos. O valor 'apps/core/static/' indica que os arquivos estáticos serão acessíveis através de URLs que começam com esse prefixo. Por exemplo, se o domínio do seu site for neurondat.com, o URL completo para um arquivo estático chamado style.css seria encontrado pela rota neurondat.com/apps/core/static/style.css.
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles') #Essa configuração especifica o diretório onde os arquivos estáticos serão coletados durante o processo de implantação do projeto. O valor 'staticfiles' representa o nome do diretório onde os arquivos estáticos coletados serão armazenados. O os.path.join(BASE_DIR, 'staticfiles') é usado para criar o caminho absoluto para esse diretório, combinando o diretório raiz do projeto (BASE_DIR) com o nome do diretório dos arquivos estáticos. Vamos falar melhor desse tema na implantação desse projeto
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'apps/core/static/')] #Essa configuração define uma lista de diretórios adicionais onde o Django deve procurar por arquivos estáticos. No exemplo fornecido, o diretório 'apps/core/static/' é adicionado à lista. Isso significa que além dos arquivos estáticos coletados no diretório definido em STATIC_ROOT, o Django também procurará arquivos estáticos nesse diretório específico. Essa configuração é útil quando você possui arquivos estáticos em diferentes diretórios dentro do seu projeto.
 
 
 

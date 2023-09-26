@@ -1,0 +1,27 @@
+{% extends 'base_guru.html' %}
+{% load static %}
+{% block main %}
+
+<div class="tool-title"> <a href="{% url 'ferramenta_guru' %}">🌟 Descubra o Futuro com o Guru do Amor! 🌟</a></div>
+<div class="separator"></div>
+<p>
+    Querida amiga, você já imaginou como será o seu futuro amoroso?
+    </p>
+<p>
+    Será que o destino reserva um grande amor para você? É hora de descobrir de uma forma divertida e mágica!
+
+O Guru do Amor está aqui para te ajudar a desvendar os mistérios do coração. Tudo o que você precisa fazer é escrever o seu nome abaixo e prepare-se para uma jornada de revelações amorosas emocionantes. Esse é um jogo divertido e intrigante, onde a magia do amor vai te surpreender!
+
+</p>
+<form method="POST" action="{% url 'ferramenta_guru' %}" class="forms">
+  {% csrf_token %}
+   <label for="nome">Me fale o seu primeiro nome:</label><br>
+  <input type="text" name="nome" id="nome" required><br>
+  <br>
+   <button type="submit">Ouvir o Guru</button>
+
+</form>
+<p>{{ resposta }}</p>
+
+
+{% endblock %}

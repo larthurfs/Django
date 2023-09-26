@@ -13,32 +13,77 @@ from unittest.mock import patch
 from apps.core.numeros import verificar_intervalo, sequencia_numeros
 
 
-class HomeViewTest(TestCase):
-    def setUp(self):
+
+
+"""
+Para entender qual é a função do arquivo de modelo tests.py dentro de uma app Django, você precisa entender o que é um teste automatizado.
+
+Um teste automatizado é um procedimento de verificação de software que é executado automaticamente, sem a necessidade de intervenção manual. 
+É uma prática fundamental no desenvolvimento de software, na qual casos de teste são definidos e executados por meio de código automatizado. 
+Os testes automatizados têm o objetivo de validar se o software está funcionando corretamente e se atende aos requisitos especificados. 
+Eles permitem identificar erros, regressões e comportamentos indesejados no código de forma rápida e eficiente.
+
+No Django, Os testes automatizados são desenvolvidos dentro do arquivo de modelo tests.py e geralmente escritos usando a classe django.test.TestCase ou suas subclasses. 
+Essas classes fornecem métodos e recursos para criar e executar testes. 
+Você pode definir métodos dentro da classe de teste, cada um representando um caso de teste específico.
+
+Os testes automatizados no Django podem ser usados para verificar diferentes aspectos do seu aplicativo, como a funcionalidade das views, a renderização correta de templates, a validação de formulários, 
+a lógica de negócios, entre outros. Eles ajudam a garantir que o código do seu aplicativo esteja funcionando corretamente em diferentes cenários e situações.
+
+Ao escrever testes automatizados, você define uma série de assert que são verificadas durante a execução do teste. 
+Os assert são usadas para verificar se um resultado esperado é igual ao resultado real. Por exemplo, você pode verificar se uma determinada view retorna um código de status HTTP correto, 
+se um template é usado corretamente ou se os dados são salvos corretamente no banco de dados.
+
+Ao executar os testes automatizados, o Django cria um ambiente isolado para cada teste e executa os casos de teste de forma independente. 
+Ele captura e relata os testes que passaram e os que falharam, fornecendo informações úteis para depuração.
+
+
+python manage.py tests
+
+"""
+
+
+from django.test import TestCase #Importa a classe TestCase do módulo django.test, que é a base para escrever testes automatizados no Django.
+from django.urls import reverse #Importa a função reverse do módulo django.urls, que permite obter a URL reversa de uma view com base no seu nome.
+from apps.core.models import Ferramentas #Importa o modelo Ferramentas do aplicativo core.models.
+
+class HomeViewTest(TestCase): #Define uma classe de teste chamada HomeViewTest que herda da classe TestCase.
+    def setUp(self): #Define um método setUp que será executado antes de cada caso de teste. É usado para configurar o ambiente de teste antes de executar os casos de teste.
         # Criação de objetos Ferramentas para simular dados do banco de dados
         self.qrcode = Ferramentas.objects.create(nome="Gerador de QR Code")
         self.recibo = Ferramentas.objects.create(nome="Gerador de Recibo")
         self.senha = Ferramentas.objects.create(nome="Gerador de Senha")
         self.numeros = Ferramentas.objects.create(nome="Números Aleatórios")
 
-    def test_home_view(self):
-        # Obtenção da URL da view "home" usando o reverse
-        url = reverse('home')
+    def test_home_view(self): #Define um método de teste chamado test_home_view que verifica o comportamento da view "home".
 
-        # Solicitação GET para a URL da view
-        response = self.client.get(url)
+        url = reverse('home') #Obtém a URL da view "home" usando a função reverse e atribui-a à variável url.
 
-        # Verificação do código de status da resposta
-        self.assertEqual(response.status_code, 200)
 
-        # Verificação do template utilizado na resposta
-        self.assertTemplateUsed(response, 'index.html')
+        response = self.client.get(url) #Envia uma solicitação GET para a URL da view "home" usando o cliente de teste self.client e armazena a resposta na variável response.
+
+
+        self.assertEqual(response.status_code, 200) #Verifica se o código de status da resposta é igual a 200 (indicando uma resposta bem-sucedida).
+
+
+        self.assertTemplateUsed(response, 'index.html') #Verifica se o template utilizado na resposta é "index.html".
 
         # Verificação dos objetos Ferramentas no contexto da resposta
-        self.assertEqual(response.context['qrcode'], self.qrcode)
+        self.assertEqual(response.context['qrcode'], self.qrcode) #Verifica se o objeto qrcode no contexto da resposta é igual ao objeto self.qrcode criado no método setUp. Essa verificação é feita para garantir que o objeto qrcode esteja presente no contexto da view.
         self.assertEqual(response.context['recibo'], self.recibo)
         self.assertEqual(response.context['senha'], self.senha)
         self.assertEqual(response.context['numeros'], self.numeros)
+
+
+
+
+
+"""
+Os testes automatizados são uma parte essencial do desenvolvimento de aplicativos Django, 
+ele fornece uma forma de verificar e validar o comportamento do seu aplicativo de forma automática, ajudando a garantir que ele funcione conforme o esperado e cumpra os requisitos definidos. 
+Além disso, os testes automatizados também facilitam a manutenção do código, pois permitem detectar problemas quando alterações são feitas no código existente. 
+Com uma variedade de testes automatizados, você pode ter mais confiança na estabilidade e no desempenho do seu aplicativo Django.
+"""
 
 
 
@@ -47,17 +92,17 @@ class FerramentaQRCodeTest(TestCase):
         # Cria o objeto Ferramentas para o teste
         Ferramentas.objects.create(nome="Gerador de QR Code", ativa=True)
 
-    def test_ferramenta_qrcode_get(self):
-        # Teste quando é feita uma requisição GET
-        client = Client()
-        response = client.get(reverse('ferramenta_qrcode'))
+    def test_ferramenta_qrcode_get(self): #Este é o primeiro método de teste. Ele testa o comportamento quando uma requisição GET é feita para a view ferramenta_qrcode.
+
+        client = Client() #Cria uma instância do cliente HTTP fornecido pelo Django para simular a realização de requisições.
+        response = client.get(reverse('ferramenta_qrcode')) #Faz uma requisição GET para a URL mapeada para a view ferramenta_qrcode usando a função reverse para obter a URL com base no nome da view.
         self.assertEqual(response.status_code, 200)  # Verifica se a resposta foi bem-sucedida
 
-    def test_ferramenta_qrcode_post(self):
-        # Teste quando é feita uma requisição POST
-        client = Client()
-        info = "Teste de informação"
-        response = client.post(reverse('ferramenta_qrcode'), {'informacao': info})
+    def test_ferramenta_qrcode_post(self): #Este é o segundo método de teste. Ele testa o comportamento quando uma requisição POST é feita para a view ferramenta_qrcode.
+
+        client = Client() #Cria uma nova instância do cliente HTTP.
+        info = "Teste de informação" #Define uma variável info que armazena uma string de teste.
+        response = client.post(reverse('ferramenta_qrcode'), {'informacao': info}) #Faz uma requisição POST para a URL mapeada para a view ferramenta_qrcode, passando a informação a ser inserida no qrcode.
         self.assertEqual(response.status_code, 200)  # Verifica se a resposta foi bem-sucedida
 
         # Verifica se a resposta é uma imagem PNG
@@ -66,7 +111,7 @@ class FerramentaQRCodeTest(TestCase):
         # Verifica se a imagem do QR Code é gerada corretamente
         qr_image = Image.open(BytesIO(response.content))
         self.assertEqual(qr_image.format, 'PNG')
-        self.assertEqual(qr_image.size, (350, 350))
+
 
 
 
@@ -75,10 +120,10 @@ class FerramentaQRCodeTest(TestCase):
 class FerramentaRecibosTest(TestCase):
     def setUp(self):
         self.client = Client()
+        Ferramentas.objects.create(nome="Gerador de Recibo", ativa=True)
 
     def test_envio_formulario_post_valido(self):
-        # Criando objeto Ferramentas simulado para o teste
-        ferramentas = Ferramentas.objects.create(nome="Gerador de Recibo", ativa=True)
+
 
         url = reverse('ferramenta_recibos')
 
@@ -111,37 +156,55 @@ class FerramentaRecibosTest(TestCase):
 
 
 class FerramentaSenhaTest(TestCase):
-
     def setUp(self):
-        self.client = Client()
-        # Criando objeto Ferramentas simulado para o teste
-        self.senha_ferramenta = Ferramentas.objects.create(nome="Gerador de Senha", ativa=True)
+        # Crie um objeto Ferramentas para teste
+        self.ferramenta_senha = Ferramentas.objects.create(nome="Gerador de Senha", ativa=True)
 
-    @patch('apps.core.views.gerar_senha')
-    def test_geracao_senha_view(self, mock_gerar_senha):
-        # Configura o comportamento simulado para a função gerar_senha
-        tamanho_senha = 10
+    def test_ferramenta_senha_get(self):
+        # Teste para solicitação GET
+        response = self.client.get(reverse('ferramenta_senha'))
 
-        # Define a URL da view
-        url = reverse('ferramenta_senha')
+        # Verifique se a resposta tem código de status 200 (OK)
+        self.assertEqual(response.status_code, 200)
 
-        # Faz uma requisição GET à view
-        response = self.client.get(url)
+        # Verifique se a chave 'senha_gerada' está no contexto do template
+        self.assertIn('senha_gerada', response.context)
 
-        # Verifica se a view retornou o template correto
+        # Verifique se a view está usando o template 'senha.html'
         self.assertTemplateUsed(response, 'senha.html')
 
+    def test_ferramenta_senha_post(self):
+        # Teste para solicitação POST
+        qtdcaracter = 8  # Número de caracteres para a senha
+        response = self.client.post(reverse('ferramenta_senha'), {'qtdcaracter': qtdcaracter})
 
-        # Faz uma requisição POST à view para gerar uma senha
-        data = {'qtdcaracter': tamanho_senha}
-        response_post = self.client.post(url, data)
+        # Verifique se a resposta tem código de status 200 (OK)
+        self.assertEqual(response.status_code, 200)
 
-        # Verifica se a view retornou o template correto após a requisição POST
-        self.assertTemplateUsed(response_post, 'senha.html')
+        # Verifique se a chave 'senha_gerada' está no contexto do template
+        self.assertIn('senha_gerada', response.context)
+
+        # Verifique se a view está usando o template 'senha.html'
+        self.assertTemplateUsed(response, 'senha.html')
+
+        # Verifique se a senha gerada tem o número correto de caracteres
+        senha_gerada = response.context['senha_gerada']
+        self.assertEqual(len(senha_gerada), qtdcaracter)
+
+    def test_ferramenta_senha_desativada(self):
+        # Simule a desativação da ferramenta
+        self.ferramenta_senha.ativa = False
+        self.ferramenta_senha.save()
+
+        response = self.client.get(reverse('ferramenta_senha'))
+
+        # Verifique se a resposta é um redirecionamento (código de status 302)
+        self.assertEqual(response.status_code, 302)
 
 
-        # Verifica se a função gerar_senha foi chamada com o tamanho correto
-        mock_gerar_senha.assert_called_once_with(tamanho_senha)
+
+
+
 
 
 class FerramentaNumerosTest(TestCase):

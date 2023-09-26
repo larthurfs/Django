@@ -121,8 +121,8 @@ body {
 
 .recibo-form {
   display: grid;
-  grid-template-columns: 1fr 1fr;  /* Duas colunas com largura igual */
-  grid-gap: 10px;  /* Espaçamento entre os campos */
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 10px;
 }
 
 .recibo-form label {
@@ -140,7 +140,7 @@ body {
 
 
 .recibo-form button {
-  grid-column: span 2;  /* Botão ocupa duas colunas */
+  grid-column: span 2;
   padding: 10px 20px;
   background-color: #063970;;
   color: #fff;
