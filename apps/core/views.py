@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 
-
+from django.views.decorators.csrf import csrf_exempt
 from apps.core.models import Ferramentas
 from django.http import HttpResponse
 from django.contrib import messages
@@ -213,6 +213,7 @@ def ferramenta_numeros(request):
 def guru_inativo(request):
     return render(request, 'guru_inativo.html')
 
+@csrf_exempt
 def ferramenta_guru(request):
     guru = Ferramentas.objects.get(nome="guru")
     if guru.ativa:
