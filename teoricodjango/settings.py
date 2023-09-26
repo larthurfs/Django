@@ -29,7 +29,7 @@ SECRET_KEY = config('SECRET_KEY')
 DEBUG = config('DEBUG', default=False, cast=bool)
 
 ALLOWED_HOSTS = ['*']
-CSRF_TRUSTED_ORIGINS = ['https://*.web-production-9a0ee.up.railway.app/', 'https://web-production-9a0ee.up.railway.app/']
+CSRF_TRUSTED_ORIGINS = ['https://*web-production-9a0ee.up.railway.app/', 'https://web-production-9a0ee.up.railway.app/', 'https://web-production-9a0ee.up.railway.app/']
 
 
 
